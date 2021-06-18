@@ -16,7 +16,8 @@ class StocksController < ApplicationController
         if @stock.save
             render json: @stock
         else
-            head status: :unprocessable_entity
+            render json: { errors: @stock.errors },
+                   status: :unprocessable_entity
         end
     end
 
