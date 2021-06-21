@@ -14,7 +14,8 @@ class StocksController < ApplicationController
         @stock = @user.stocks.build(stock_params)
 
         if @stock.save
-            render json: @stock
+            render json: @stock.to_json(methods: [:current_price]),
+                   status: :created
         else
             render json: { errors: @stock.errors },
                    status: :unprocessable_entity
@@ -25,9 +26,9 @@ class StocksController < ApplicationController
         @stock = @user.stocks.find(params[:id])
 
         if @stock && @stock.update(stock_params)
-            render json: @stock
+            render json: @stock.to_json(methods: [:current_price])
         else
-            head status: :unprocessable_entity
+            head :unprocessable_entity
         end
     end
 
@@ -35,9 +36,9 @@ class StocksController < ApplicationController
         @stock = @user.stocks.find(params[:id])
 
         if @stock && @stock.destroy
-            head status: :success
+            head :ok
         else
-            head status: :not_found
+            head :not_found
         end
     end
 
