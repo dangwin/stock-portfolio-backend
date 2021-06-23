@@ -8,7 +8,7 @@ class Stock < ApplicationRecord
     
     def current_price
         quote = Alphavantage::TimeSeries.new(symbol: self.symbol).quote
-        quote.price
+        quote&.price
     end
 
     def valid_symbol?
